@@ -1,38 +1,119 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React from 'react';
+import Particles from 'react-particles-js';
 import { observer } from 'mobx-react';
-import * as THREE from 'three';
-import { Canvas } from 'react-three-fiber';
 
-import Effects from './effects';
-// import Sparks from './sparks';
-import Particles from './particles';
-// import './styles.css'
+const params = {
+  particles: {
+    number: {
+      value: 6,
+      density: {
+        enable: true,
+        value_area: 800,
+      },
+    },
+    color: { value: '#1b1e34' },
+    shape: {
+      type: 'polygon',
+      stroke: {
+        width: 0,
+        color: '#000',
+      },
+      polygon: { nb_sides: 6 },
+      image: {
+        src: 'img/github.svg',
+        width: 100,
+        height: 100,
+      },
+    },
+    opacity: {
+      value: 0.3,
+      random: true,
+      anim: {
+        enable: false,
+        speed: 1,
+        opacity_min: 0.1,
+        sync: false,
+      },
+    },
+    size: {
+      value: 160,
+      random: false,
+      anim: {
+        enable: true,
+        speed: 10,
+        size_min: 40,
+        sync: false,
+      },
+    },
+    line_linked: {
+      enable: false,
+      distance: 200,
+      color: '#ffffff',
+      opacity: 1,
+      width: 2,
+    },
+    move: {
+      enable: true,
+      speed: 8,
+      direction: 'none',
+      random: false,
+      straight: false,
+      out_mode: 'out',
+      bounce: false,
+      attract: {
+        enable: false,
+        rotateX: 600,
+        rotateY: 1200,
+      },
+    },
+  },
+  interactivity: {
+    detect_on: 'canvas',
+    events: {
+      onhover: {
+        enable: false,
+        mode: 'grab',
+      },
+      onclick: {
+        enable: false,
+        mode: 'push',
+      },
+      resize: true,
+    },
+    modes: {
+      grab: {
+        distance: 400,
+        line_linked: {
+          opacity: 1,
+        },
+      },
+      bubble: {
+        distance: 400,
+        size: 40,
+        duration: 2,
+        opacity: 8,
+        speed: 3,
+      },
+      repulse: {
+        distance: 200,
+        duration: 0.4,
+      },
+      push: {
+        particles_nb: 4,
+      },
+      remove: {
+        particles_nb: 2,
+      },
+    },
+  },
+  retina_detect: true,
+};
 
 function HeroCanvas() {
-  const [down, set] = useState(false);
-  const mouse = useRef([0, 0]);
-  const onMouseMove = useCallback(({ clientX: x, clientY: y }) => (mouse.current = [x - window.innerWidth / 2, y - window.innerHeight / 2]), []);
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
   return (
-    <Canvas
-      pixelRatio={Math.min(2, isMobile ? window.devicePixelRatio : 1)}
-      camera={{ fov: 100, position: [0, 0, 30] }}
-      onMouseMove={onMouseMove}
-      onMouseUp={() => set(false)}
-      onMouseDown={() => set(true)}
-      onCreated={({ gl }) => {
-        gl.toneMapping = THREE.Uncharted2ToneMapping;
-        gl.setClearColor(new THREE.Color('#020207'));
-      }}
-    >
-      <fog attach="fog" args={['white', 50, 190]} />
-      <pointLight distance={100} intensity={4} color="white" />
-      <Particles count={isMobile ? 5000 : 10000} mouse={mouse} />
-      {/* <Sparks count={20} mouse={mouse} colors={['#A2CCB6', '#FCEEB5', '#EE786E', '#e0feff', 'lightpink', 'lightblue']} /> */}
-      <Effects down={down} />
-    </Canvas>
+    <Particles params={params} />
   );
 }
 
 export default observer(HeroCanvas);
+

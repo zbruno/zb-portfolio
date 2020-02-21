@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import { Global } from '@emotion/core';
+import Typography from 'typography';
+import oceanBeachTheme from 'typography-theme-ocean-beach';
+import { TypographyStyle, GoogleFont } from 'react-typography';
 
 import Alerts from './alerts';
-import { GlobalStyles, MainContainer } from './style';
+import { MainContainer } from './style';
+
+const typography = new Typography(oceanBeachTheme);
 
 @observer
 class Layout extends Component {
@@ -16,11 +20,14 @@ class Layout extends Component {
     const { children } = this.props;
 
     return (
-      <MainContainer>
-        <Global styles={GlobalStyles} />
-        <Alerts />
-        {children}
-      </MainContainer>
+      <>
+        <TypographyStyle typography={typography} />
+        <GoogleFont typography={typography} />
+        <MainContainer>
+          <Alerts />
+          {children}
+        </MainContainer>
+      </>
     );
   }
 }
